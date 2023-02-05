@@ -20,6 +20,8 @@ Account와 AccountRole은 서로 1:N으로 양방향 매핑이 되어 있다. �
 
 결론은 AuthenticationProvider에서 로그인 정보가 유효한지 확인하기 위해 AccountContext를 불러오는 loadUserByUsername 함수에 @Transactional을 붙여서 해결할 수 있었다.
 
+(참고 링크: https://stackoverflow.com/questions/22821695/how-to-fix-hibernate-lazyinitializationexception-failed-to-lazily-initialize-a)
+
 ```java
 /* AuthenticationProvider */
 @RequiredArgsConstructor
@@ -57,4 +59,12 @@ public class CustomUserDetailsService implements UserDetailsService {
 }
 ```
 
+엔티티를 조회할 때, 영속성 컨텍스트의 1차 캐시에 엔티티가 존재하는지 먼저 확인한다. 만약 엔티티가 존재하지 않는다면 DB로부터 엔티티를 조회한다.
 
+Account를 조회하는 시점에 영속성 컨텍스트가 생성되고 이를 통해 엔티티를 조회한다.
+```java
+userRepository.findByUsername(name)
+```
+그 후 영속성 컨텍스트가 종료되고 준영속 상태가  @OneToMany 지연로딩으로 등록된 AccountRoleList를 불러올 수 없었던 것이 문제였다.
+
+이에 따라 @Transactional을 추가해 영속성 컨텍스트를 유지함으로써 문제를 해결할 수 있었다.
