@@ -21,6 +21,7 @@ Account와 AccountRole은 서로 1:N으로 양방향 매핑이 되어 있다. �
 결론은 AuthenticationProvider에서 로그인 정보가 유효한지 확인하기 위해 AccountContext를 불러오는 loadUserByUsername 함수에 @Transactional을 붙여서 해결할 수 있었다.
 
 ```java
+/* AuthenticationProvider */
 @RequiredArgsConstructor
 public class CustomAuthenticationProvider implements AuthenticationProvider {
     private final UserDetailsService userDetailsService;
@@ -37,6 +38,21 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
            throw new BadCredentialsException("BadCredentialException");
         } 
         ...
+    }
+}
+```
+
+```java
+@Service("UserDetailsService")
+@RequiredArgsConstructor
+public class CustomUserDetailsService implements UserDetailsService {
+    private final UserRepository userRepository;
+
+    @Override
+    @Transactional /* 이것을 추가하여 문제가 해결됨 */
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        ...
+        return accountContext;
     }
 }
 ```
