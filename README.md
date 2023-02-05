@@ -79,8 +79,9 @@ objectMapper.writeValue(response.getWriter(), principal);
 
 직렬화를 할 때, 엔티티 클래스의 toString 메소드를 이용하게 된다.
 
-Lombok의 @ToString은 클래스의 모든 필드를 직렬화 한다. 그러므로, 양방향 연관관계가 매핑된 경우에 순환참조 문제가 발생하게 된다.
+Lombok의 @ToString은 클래스의 모든 필드를 직렬화 한다. 이에 양방향 연관관계가 매핑된 경우에 순환참조 문제가 발생하게 된다.
 
-그러므로, 직접 toString 메소드를 생성하거나 @JsonIgnore을 이용해 순환 참조 문제를 피할 수 있다.
+직접 toString 메소드를 생성하거나 @JsonIgnore을 이용해 순환 참조 문제를 피할 수 있었다.
 
 ### 3.3 @Getter가 없을 때, Thymeleaf 템플릿에서 발생하는 문제
+
