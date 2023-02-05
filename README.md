@@ -83,5 +83,17 @@ Lombok의 @ToString은 클래스의 모든 필드를 직렬화 한다. 이에 �
 
 직접 toString 메소드를 생성하거나 @JsonIgnore을 이용해 순환 참조 문제를 피할 수 있었다.
 
-### 3.3 @Getter가 없을 때, Thymeleaf 템플릿에서 발생하는 문제
+### 3.3 Thymeleaf 템플릿의 Getter 활용
 
+Thymeleaf 템플릿에서는 Model을 통해 전달한 객체 리스트를 동적으로 바인딩하는 방식이 있다.
+
+```html
+            <tbody>
+            <tr th:each="role : ${roles}">
+                <td><a th:href="@{|/admin/roles/${role.id}|}" th:text="${role.roleName}"></a></td>
+                <td th:text="${role.roleDescription}"></td>
+            </tr>
+            </tbody>
+```
+
+Getter가 없으면 동작하지 않는다.
