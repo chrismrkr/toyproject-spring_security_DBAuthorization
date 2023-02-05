@@ -8,7 +8,7 @@ Email: b635032_@daum.net
 
 ## 3. 트러블 슈팅
 
-### 3.1 @OneToMany 양방향 매핑에서의 이슈
+### 3.1 @OneToMany 양방향 매핑에서의 
 
 로그인을 할 때, 아래와 같은 에러 메세지가 발생했다.
 
@@ -68,3 +68,19 @@ userRepository.findByUsername(name)
 그 후 영속성 컨텍스트가 종료되고 준영속 상태가  @OneToMany 지연로딩으로 등록된 AccountRoleList를 불러올 수 없었던 것이 문제였다.
 
 이에 따라 @Transactional을 추가해 영속성 컨텍스트를 유지함으로써 문제를 해결할 수 있었다.
+
+### 3.2 순환 참조 문제
+
+Ajax 인증처리가 완료된 후, SuccessHandler의 objectMapper에서 로그인 성공한 객체를 직렬화(JSON으로 변환)해서 웹 페이지에 전달한다.
+
+```java
+objectMapper.writeValue(response.getWriter(), principal);
+```
+
+직렬화를 할 때, 엔티티 클래스의 toString 메소드를 이용하게 된다.
+
+Lombok의 @ToString은 클래스의 모든 필드를 직렬화 한다. 그러므로, 양방향 연관관계가 매핑된 경우에 순환참조 문제가 발생하게 된다.
+
+그러므로, 직접 toString 메소드를 생성하거나 @JsonIgnore을 이용해 순환 참조 문제를 피할 수 있다.
+
+### 3.3 @Getter가 없을 때, Thymeleaf 템플릿에서 발생하는 문제
