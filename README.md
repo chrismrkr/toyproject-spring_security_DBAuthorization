@@ -97,3 +97,19 @@ Thymeleaf 템플릿에서는 Model을 통해 전달한 객체 리스트를 동�
 ```
 
 Getter가 없으면 동작하지 않는다.
+
+
+### 3.4 스프링에서 파라미터를 받기 위해 사용하는 Annotation 정리
+
+HTTP POST 요청에 대한 응답 데이터는 MessageBody에 담겨서 온다.
+
+content-type이 application/x-www-form-urlencoded라면 parameter=value&another=value와 같은 모양으로 messageBody에 저장된다.
+
+반면, content-type이 application/json이라면, { parmeter: value, another: value }와 같은 모양으로 messageBody에 저장되어 전송된다.
+
+그러므로, @RequestParam, @RequestBody 모두 messageBody를 이용하는 것이므로 혼동하지 않아야 한다.
+
++ @RequestParam: HttpServletRequest의 파라미터를 가져올 때 사용한다. 각 변수별로 데이터를 저장할 수 있다는 장점이 있다. (getParameter와 유사함)
++ @PathVariable: 예를 들어 localhost:8080/{id}에서 id에 매핑되는 변수를 불러온다.
++ @RequestBody: 전송되는 파라미터를 한번에 가져올 때 사용한다. 객체로 바인딩할 수 있는 장점이 있다.
++ @ModelAttribute: 
