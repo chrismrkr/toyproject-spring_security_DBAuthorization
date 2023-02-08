@@ -136,6 +136,65 @@ roleList를 loop하면서 resource.roleSet에 존재하는 것이라면 체크�
     model.addAttribute("resource", resource);
 ```
 
-### 3.6 Resource, \List\<Role> 검색 쿼리 최적화
+### 3.6 Resource - List\<Role> 검색 쿼리 최적화
+
+Resource와 Role은 서로 다대다이다. Join용 RoleResource 테이블을 만들어 이를 1:N, N:1으로 나타낼 수 있다.
+
+Resource, RoleResource, Role 엔티티는 아래와 같이 연관관계를 맺고 있다.
+
+```java
+public class Resource {
+    @OneToMany(mappedBy = "resource", cascade = CascadeType.REMOVE)
+    private List<RoleResource> roleResources = new ArrayList<>();
+}
+
+public class RoleResource {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id")
+    private Role role;
     
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "resource_id")
+    private Resource resource;
+}
+
+public class Role {
+    @OneToMany(mappedBy = "role")
+    private List<RoleResource> roleResourceList;
+}
+```
+
+Resource 엔티티를 기준으로, 특정 Resource에 접근할 수 있는 모든 Role을 아래와 같이 찾을 수 있다.
+
+```java
+    Resource resource = resourceRepository.findById(id); // Query 1번 발생
+    List<RoleResource> roleResources = resource.getRoleResources(); // Query 1번 발생  
+    
+    List<Role> roles = new ArrayList<>();
+    for(RoleResource roleResource : roleResources) {
+        role.add(roleResource.getRole()); // RoleResource 개수(N개)만큼 Query 발생
+    }
+```
+N+1 문제가 발생했다. 물론, roleResource를 검색할 때 Role을 fetch join해서 Query 횟수를 줄일 수 있다.
+
+그러나, 아래와 RoleResource를 기준으로 Role과 Resource를 fetch join해서 검색하면 Query를 1번으로 최적화할 수 있다.
+
+```java
+    Set<Role> currentRoles = new HashSet<>();
+    for(RoleResource roleResource :  resourceService.findRoleResourcesWithFetch(resourceDto.getId())) {
+        currentRoles.add(roleResource.getRole());
+    }
+    
+    // Query
+    @Repository("roleResourceRepository")
+    public interface ResourceRoleRepository extends JpaRepository<RoleResource, Long> {
+
+         @Query(value = "SELECT role_resource " +
+                          "FROM RoleResource role_resource " +
+                          "JOIN FETCH role_resource.role role " +
+                          "LEFT JOIN FETCH role_resource.resource resource " +
+                          "WHERE resource.id = :resourceId")
+         List<RoleResource> findRoleResourcesWithFetch(@Param("resourceId")Long resourceId);
+    }
+```
     
