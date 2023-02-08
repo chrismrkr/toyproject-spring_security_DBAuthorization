@@ -69,6 +69,8 @@ userRepository.findByUsername(name)
 
 이에 따라 @Transactional을 추가해 영속성 컨텍스트를 유지함으로써 문제를 해결할 수 있었다.
 
+JPA의 영속, 준영속, 비영속 상태를 영속성 컨텍스트에 연결지어 확실히 이해해야 한다.
+
 ### 3.2 순환 참조 문제
 
 Ajax 인증처리가 완료된 후, SuccessHandler의 objectMapper에서 로그인 성공한 객체를 직렬화(JSON으로 변환)해서 웹 페이지에 전달한다.
@@ -113,3 +115,27 @@ content-type이 application/x-www-form-urlencoded라면 parameter=value&another=
 + @PathVariable: 예를 들어 localhost:8080/{id}에서 id에 매핑되는 변수를 불러온다.
 + @RequestBody: 전송되는 파라미터를 한번에 가져올 때 사용한다. 객체로 바인딩할 수 있는 장점이 있다. 이를 위해서는 getter가 필요하다.
 + @ModelAttribute: 
+
+### 3.5 타임리프의 selectbox와 checkbox 사용 방법
+
+서버에서 페이지와 Model 객체를 넘겨줄 때, Model 객체의 attribute 상태에 따라 checkbox 또는 selectbox를 지정되도록 할 수 있다.
+
+아래와 같은 타임리프 문법을 사용할 수 있다.
+
+roleList를 loop하면서 resource.roleSet에 존재하는 것이라면 체크박스에 체크하는 방식으로 구현된다.
+```html
+          <select class="select" name="roleName" id="roleName">
+               <option th:each="role: ${roleList}"
+                       th:value="${role.roleName}"
+                       th:text="${role.roleName}"
+                       th:selected="${resource.roleSet.contains(role)} ? 'true' : 'false'"/>
+          </select>
+```
+```java
+    model.addAttribute("roleList", roleList);
+    model.addAttribute("resource", resource);
+```
+
+### 3.6 Resource, \List\<Role> 검색 쿼리 최적화
+    
+    
