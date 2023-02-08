@@ -8,6 +8,8 @@ Email: b635032_@daum.net
 
 ## 3. 트러블 슈팅
 
+개발하면서 생긴 문제를 해결한 과정을 기술한다.
+
 ### 3.1 @OneToMany 양방향 매핑에서의 이슈
 
 로그인을 할 때, 아래와 같은 에러 메세지가 발생했다.
@@ -197,5 +199,4 @@ N+1 문제가 발생했다. 물론, roleResource를 검색할 때 Role을 fetch 
          List<RoleResource> findRoleResourcesWithFetch(@Param("resourceId")Long resourceId);
     }
 ```
-    
-   
+
