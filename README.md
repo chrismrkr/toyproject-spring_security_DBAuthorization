@@ -199,4 +199,36 @@ N+1 문제가 발생했다. 물론, roleResource를 검색할 때 Role을 fetch 
          List<RoleResource> findRoleResourcesWithFetch(@Param("resourceId")Long resourceId);
     }
 ```
+### 3.7 requestMap 순서 중요성
 
+SecurityMetaDataSource에는 requestMap<requestMatcher, list<ConfigAttribute>>(url, 접근 가능한 권한 리스트)가 존재한다.
+
+특정 url로 접근할 때, 아래의 로직으로 검색한다.
+
+```java
+    public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
+        HttpServletRequest request = ((FilterInvocation) object).getRequest();
+        // requestMap.put(new AntPathRequestMatcher("/mypage"), Arrays.asList(new SecurityConfig("ROLE_USER")));
+        if(requestMap != null) {
+            for(Map.Entry<RequestMatcher, List<ConfigAttribute>> entry : requestMap.entrySet() ) {
+                RequestMatcher matcher = entry.getKey();
+                if(matcher.matches(request)) {
+                    return entry.getValue();
+                }
+            }
+        }
+        return null;
+    }
+```
+
+위의 코드를 분석해보면 requestMap을 순서대로 검색한다. 그러므로, requestMap에는 구체적인 경로가 더 먼저 들어가도록 만들어야 한다.
+
+예를 들어, 1. /admin/user -> admin, user, 2. /admin/** -> admin 순서로 저장되었다고 가정하자.
+
+이 경우에 user 권한을 가진 사용자가 /admin/user로 접근할 수 있다.
+
+그러나, 1. /admin/** -> admin, 2. /admin/user -> admin, user 순서로 저장되었다고 가정하자.
+
+이 경우에는 /admin/** 규칙에 의해 /admin/user에 접근할 수 없다. 
+
+그러므로, requestMap은 구체적인 경로가 먼저 저장될 수 있도록 순서를 조정하는 것이 중요하다.
