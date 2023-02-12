@@ -55,6 +55,10 @@ attemptAuthorization()을 실행하면 설정된 AccessDecisionManager의 Decisi
     }
 ```
 
+affirmativeBased의 경우, voter 중 1개라도 ACCESS_GRANTED를 반환하면 인가가 완료되도록 한다.
+
+물론, voter 중 1개라도 ACCESS_DENIED라면 인가가 실패되니 주의해야 한다.
+
 ## 3. 트러블 슈팅
 
 개발하면서 생긴 문제를 해결한 과정을 기술한다.
