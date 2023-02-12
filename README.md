@@ -5,6 +5,7 @@ Email: b635032_@daum.net
 ## 1. 개선 및 추가내용
 
 ## 2. 주요 로직 및 DB 연동 인가 핵심 아키텍처 
+![dbauth_flow](https://user-images.githubusercontent.com/62477958/218303215-6dce0f67-e5b4-4d24-8cc3-fca7886c7f3f.png)
 
 ## 3. 트러블 슈팅
 
