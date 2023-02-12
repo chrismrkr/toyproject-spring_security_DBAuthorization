@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<div th:replace="admin/common/head.html" :: head-fragment></div>
+
+<body>
+<div th:replace="admin/common/top.html" :: admin-top-fragment></div>
+<main>
+    <div class="content">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>권한명</th>
+                <th>권한설명</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="role : ${roles}">
+                <td><a th:href="@{|/admin/roles/${role.id}|}" th:text="${role.roleName}"></a></td>
+                <td th:text="${role.roleDescription}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div>
+            <button th:onclick="|location.href='@{/admin/roles/register}'|"
+                    type="button">권한 등록</button>
+        </div>
+
+    </div>
+</main>
+</body>
+</html>

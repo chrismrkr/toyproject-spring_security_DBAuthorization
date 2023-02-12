@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<body th:fragment="admin-top-fragment">
+    <div class="menu">
+        <div class="page-name">Core Spring Security</div>
+        <div class="nav">
+            <ul>
+                <li><a sec:authorize="isAuthenticated()" th:href="@{/logout}">Logout</a></li>
+                <li><a th:href="@{/}">Home</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="tab-selector">
+        <ul>
+            <li><a th:href="@{/admin/users}">User</a></li>
+            <li><a th:href="@{/admin/roles}">Role</a></li>
+            <li><a th:href="@{/admin/resources}">Resource</a></li>
+        </ul>
+    </div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<div th:replace="admin/common/head.html" :: head-fragment></div>
+
+<body>
+<div th:replace="admin/common/top.html" :: admin-top-fragment></div>
+<main>
+    <div class="content">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>리소스명</th>
+                <th>리소스타입</th>
+                <th>HttpMethod</th>
+                <th>순서</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="resource : ${resources}">
+                <td><a href="" th:href="@{|/admin/resources/${resource.id}|}" th:text="${resource.resourceName}"></a></td>
+                <td th:text="${resource.resourceType}"></td>
+                <td th:text="${resource.httpMethod}"></td>
+                <td th:text="${resource.orderNum}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <div>
+            <button th:onclick="|location.href='@{/admin/resources/register}'|"
+                    type="button">리소스 등록</button>
+        </div>
+    </div>
+</main>
+</body>
+</html>

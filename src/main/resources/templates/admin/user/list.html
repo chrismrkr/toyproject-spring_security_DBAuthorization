@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<div th:replace="admin/common/head.html" :: head-fragment></div>
+
+<body>
+<div th:replace="admin/common/top.html" :: admin-top-fragment></div>
+    <main>
+        <div class="content">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>이름</th>
+                        <th>이메일</th>
+                        <th>나이</th>
+                        <th>권한</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="account : ${accounts}">
+                        <td><a href="" th:href="@{|/admin/users/${account.id}|}" th:text="${account.username}"></a></td>
+                        <td th:text="${account.email}"></td>
+                        <td th:text="${account.age}"></td>
+                        <td th:text="${account.roles}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</body>
+</html>

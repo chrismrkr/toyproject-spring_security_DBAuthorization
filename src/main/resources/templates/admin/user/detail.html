@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<div th:replace="/admin/common/head.html" :: head-fragment></div>
+
+<body>
+<div th:replace="/admin/common/top.html" :: admin-top-fragment></div>
+<main>
+    <div class="content">
+        <form action="" th:object="${account}" th:action method="post">
+            <div>
+                <label for="username">아이디</label>
+                <input type="text" class="form-control" id="username" th:field="*{username}" readonly>
+            </div>
+            <div>
+                <label for="email">이메일</label>
+                <input type="text" class="form-control" id="email" th:field="*{email}" readonly>
+            </div>
+            <div>
+                <label for="age">나이</label>
+                <input type="text" class="form-control" id="age" th:field="*{age}" readonly>
+            </div>
+
+            <!-- multi checkbox -->
+            <div>
+                <div>권한</div>
+                <div th:each="role:${roles}" class="checkbox-control">
+                    <input type="checkbox" th:field="*{roles}" th:value="${role.key}">
+                    <label th:for="${#ids.prev('roles')}" th:text="${role.value}"></label>
+                </div>
+            </div>
+
+            <!-- 등록 및 취소 -->
+            <div>
+                <div>
+                    <button type="submit">등록</button>
+                </div>
+                <div>
+                    <button
+                            th:onclick="|location.href='@{/admin/users}'|"
+                            type="button">목록</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>

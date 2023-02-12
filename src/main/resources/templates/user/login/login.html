@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!--
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.header}"/>
+-->
+<head th:replace="layout/head.html"::head-fragment></head>
+
+<body>
+    <div th:replace="layout/header.html"::header-fragment></div>
+
+    <div class="container">
+        <div class="form">
+            <p>아이디와 비밀번호를 입력해주세요</p>
+        </div>
+
+        <div th:if="${param.error}" class="form-group">
+            <span th:text="${exception}" class="alert alert-danger"></span>
+        </div>
+
+        <form th:action="@{/login_proc}" class="form-signin" method="post">
+            <div class="form-hidden">
+                <input th:type="hidden" th:value="secret" name="secret">
+            </div>
+            <div class="form">
+                <input type="text" class="form-control" name="username" placeholder="아이디" required autofocus>
+            </div>
+            <div class="form">
+                <input type="text" class="form-control" name="password" placeholder="비밀번호" required>
+            </div>
+
+            <div class="form">
+                <button type="submit" class="submit-button">Form 로그인</button>
+            </div>
+        </form>
+
+        <div class="form">
+            <button type="submit" onclick="formLogin()" id="form_btn" class="submit-button">Ajax 로그인</button>
+        </div>
+
+    </div>
+
+    <script th:src="@{js/ajaxLogin.js}"></script>
+</body>
+</html>

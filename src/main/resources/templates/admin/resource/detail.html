@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<div th:replace="/admin/common/head.html" :: head-fragment></div>
+
+<body>
+<div th:replace="/admin/common/top.html" :: admin-top-fragment></div>
+<main>
+    <div class="content">
+        <form action="" th:object="${resource}" th:action method="post">
+            <div>
+                <label for="resourceName">리소스명</label>
+                <input type="text" class="form-control" id="resourceName" th:field="*{resourceName}">
+            </div>
+            <div>
+                <label for="resourceType">리소스타입</label>
+                <input type="text" class="form-control" id="resourceType" th:field="*{resourceType}">
+            </div>
+            <div>
+                <label for="httpMethod">httpMethod</label>
+                <input type="text" class="form-control" id="httpMethod" th:field="*{httpMethod}">
+            </div>
+            <div>
+                <label for="orderNum">순서</label>
+                <input type="text" class="form-control" id="orderNum" th:field="*{orderNum}">
+            </div>
+            <div>
+                <label for="roleName">권한</label>
+                <div>
+                    <select class="select" name="roleName" id="roleName">
+                        <option th:each="role: ${roleList}"
+                                th:value="${role.roleName}"
+                                th:text="${role.roleName}"
+                                th:selected="${resource.roleSet.contains(role)} ? 'true' : 'false'"/>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <button type="submit">등록</button>
+                </div>
+                <div>
+                    <button
+                            th:onclick="|location.href='@{/admin/resources}'|"
+                            type="button">목록</button>
+                </div>
+                <div>
+                    <a th:href="@{/admin/resources/delete/{id}(id=${resource.id})}">
+                        <button type="button">삭제</button>
+                    </a>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</main>
+</body>
+</html>

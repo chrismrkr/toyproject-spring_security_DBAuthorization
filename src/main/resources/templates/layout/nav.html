@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<nav th:fragment="nav-fragment">
+  <div class="menu">
+    <ul>
+      <li> <a th:href="@{/}">대시보드</a> </li>
+      <li> <a th:href="@{/mypage}">마이페이지</a> </li>
+      <li> <a th:href="@{/messages}">메세지</a> </li>
+      <li> <a th:href="@{/config}">환경설정</a> </li>
+    </ul>
+  </div>
+</nav>
+</body>
+</html>

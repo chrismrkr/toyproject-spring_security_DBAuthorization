@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+<header th:fragment="header-fragment">
+  <div class="title">
+    Core Spring Security
+  </div>
+  <div class="home">
+   <!-- <a sec:authorize="isAnonymous()" th:href="@{/login}">로그인</a> -->
+    <a sec:authorize="isAnonymous()" th:href="@{/login}">로그인</a>
+    <a sec:authorize="isAuthenticated()" th:href="@{/logout}">로그아웃</a>
+    <a th:href="@{/}">Home</a>
+    <a sec:authorize="isAnonymous()" th:href="@{/users}">회원가입</a>
+    <a th:href="@{/admin}">관리자</a>
+  </div>
+</header>
+</body>
+</html>

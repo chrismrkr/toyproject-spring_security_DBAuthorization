@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<div th:replace="layout/head.html" :: head-fragment></div>
+
+<body>
+<div th:replace="layout/header.html" :: header-fragment></div>
+<main>
+    <div th:replace="layout/blank.html" :: blank-fragment></div>
+    <div th:replace="layout/nav.html" :: nav-fragment></div>
+    <div class="content">
+        이곳은 myPage 페이지 입니다.
+    </div>
+</main>
+
+<div th:replace="layout/footer.html" :: fotter-fragment></div>
+</body>
+</html>
