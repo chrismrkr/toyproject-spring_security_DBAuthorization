@@ -4,10 +4,27 @@ Email: b635032_@daum.net
 
 ## 1. 개선 및 추가내용
 
+**Java 8, Spring Boot 2.7, JPA, Spring Security, Thymeleaf Template, lombok**
+
 + DB 연동 인가 기능 추가
 
 ## 2. 주요 로직 및 DB 연동 인가 핵심 아키텍처 
+
+### 2.1 인가 처리 아키텍처
+
 ![dbauth_flow](https://user-images.githubusercontent.com/62477958/218303215-6dce0f67-e5b4-4d24-8cc3-fca7886c7f3f.png)
+
+새로운 FilterSecurityInterceptor 클래스를 생성해서 아래의 코드를 통해 등록했다.
+
+```java
+   http.addFilterBefore(customFilterSecurityInterceptor(), FilterSecurityInterceptor.class);
+```
+
+### 2.2 추가된 비즈니스 로직
+
+권한 생성, 수정, 삭제를 위한 Controller, Service, Repository를 추가했다.
+
+권한을 통해 접근할 수 있는 자원을 생성, 수정, 삭제하기 위한 Controller, Service, Repository를 추가했다.
 
 ## 3. 트러블 슈팅
 
