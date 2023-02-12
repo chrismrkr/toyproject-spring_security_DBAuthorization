@@ -26,7 +26,7 @@ Email: b635032_@daum.net
 
 권한을 통해 접근할 수 있는 자원을 생성, 수정, 삭제하기 위한 Controller, Service, Repository를 추가했다.
 
-### 2.3 계층 권한 적용
+### 2.3 AccessDecisionManager 설정
 
 
 
