@@ -28,7 +28,32 @@ Email: b635032_@daum.net
 
 ### 2.3 AccessDecisionManager 설정
 
+attemptAuthorization()을 실행하면 설정된 AccessDecisionManager의 DecisionVoter에 의해 인가를 할지 말지를 결정한다.
 
+```java
+    @Bean
+    public FilterSecurityInterceptor customFilterSecurityInterceptor() throws Exception {
+        ...
+        permitAllFilter.setAccessDecisionManager(affirmativeBased());
+        ...
+        return permitAllFilter;
+    }
+
+
+    private AccessDecisionManager affirmativeBased() {
+        // affirmativeBased: 1개만 승인(ACCESS_GRANTED) 되면 인가 완료 처리함.
+        return new AffirmativeBased(getAccessDecisionVoter());
+    }
+
+    private List<AccessDecisionVoter<?>> getAccessDecisionVoter() {
+        List<AccessDecisionVoter<? extends Object> > accessDecisionVoters = new ArrayList<>();
+
+        accessDecisionVoters.add(new IpAddressVoter(securityResourceService)); // ip 권한 관련 voter
+        accessDecisionVoters.add(roleVoter()); // 자원 권한 관련 voter
+
+        return accessDecisionVoters;
+    }
+```
 
 ## 3. 트러블 슈팅
 
