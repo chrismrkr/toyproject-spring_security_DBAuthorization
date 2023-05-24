@@ -169,7 +169,7 @@ content-type이 application/x-www-form-urlencoded라면 parameter=value&another=
 + @RequestParam: HttpServletRequest의 파라미터를 가져올 때 사용한다. 각 변수별로 데이터를 저장할 수 있다는 장점이 있다. (getParameter와 유사함)
 + @PathVariable: 예를 들어 localhost:8080/{id}에서 id에 매핑되는 변수를 불러온다.
 + @RequestBody: 전송되는 파라미터를 한번에 가져올 때 사용한다. 객체로 바인딩할 수 있는 장점이 있다. 이를 위해서는 getter가 필요하다.
-+ @ModelAttribute: 
++ @ModelAttribute: HTTP Body와 Request Parameter를 setter 또는 getter를 이용해서 바인딩하는데 필요하다.
 
 ### 3.5 타임리프의 selectbox와 checkbox 사용 방법
 
